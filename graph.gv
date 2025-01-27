@@ -12,24 +12,25 @@ digraph G
   vrsn [style=radial, fillcolor="lightgrey:lightgreen"];
   uuid;strn;stdx;rand;plug;meta;hash;cppx;core;aloc;
 
-# aloc:
-  aloc -> meta
+# rand:
+  rand -> cppx
+# uuid:
+  uuid -> cppx
+  uuid -> hash
+  uuid -> rand
 # core:
   core -> cppx
+# stdx:
+  stdx -> meta
 # hash:
   hash -> cppx
 # meta:
   meta -> cppx
 # plug:
-  plug -> vrsn
-# rand:
-  rand -> cppx
-# stdx:
-  stdx -> meta
+  plug -> cppx
 # strn:
   strn -> cppx
-# uuid:
-  uuid -> vrsn
-  uuid -> hash
-  uuid -> rand
+# aloc:
+  aloc -> meta
+
 }
