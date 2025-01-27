@@ -1,0 +1,35 @@
+# To generate svg: dot -Tsvg graph.gv > graph.svg
+
+digraph G
+{
+#  rankdir = LR;
+  graph [fontname = "helvetica"];
+  node [style=radial, fillcolor="white:lightgreen"];
+  node [fontname="monospace"; fontsize=13];
+  edge [fontname="helvetica"];
+  label = arba;
+
+  vrsn [style=radial, fillcolor="lightgrey:lightgreen"];
+  uuid;strn;stdx;rand;plug;meta;hash;cppx;core;aloc;
+
+# aloc:
+  aloc -> meta
+# core:
+  core -> cppx
+# hash:
+  hash -> cppx
+# meta:
+  meta -> cppx
+# plug:
+  plug -> vrsn
+# rand:
+  rand -> cppx
+# stdx:
+  stdx -> meta
+# strn:
+  strn -> cppx
+# uuid:
+  uuid -> vrsn
+  uuid -> hash
+  uuid -> rand
+}

@@ -1,0 +1,68 @@
+Update - just add new c++ code
+
+.CMakeLists.txt
+  .version (dev/release)
+  .libs (deps)
+.package-config.cmake.in
+  .libs (deps)
+.readme
+  .version (conan section)
+.conanfile.py
+  .requirements (deps)
+.license
+  .dates
+.clang-format
+  .apply
+
+.Github release
+.Update arba-conan-index
+.Update milestone
+
+-----
+
+Update - metadata, example, CMake version, gtest version, c++ version, compilos versions
+
+TODO...
+
+-----
+
+New
+
+.scripts -> script
+  .quick_install.cmake (check arba-NAME)
+.CMakeLists.txt
+  .cmake version (3.26)
+  .version (dev/release)
+  .metadata, description
+  .test: cmake version (1.14)
+  .libs (deps)
+.package-config.cmake.in
+  .libs (deps)
+.conanfile.py
+  .class name
+  .metadata
+  .requirements (deps)
+  .gtest version (1.14)
+.readme
+  .short description
+  .compilo version (g++-14)
+  .cmake version (3.26)
+  .gtest version (1.14)
+  .version (conan section)
+  .example
+.example
+  .update example.cpp
+.test_package
+  .update test_package.cpp
+.include/src
+  .concepts CamelCase
+  .macros ARBA_TRUC_ / TRUC_
+.license
+  .dates
+.clang-format
+  .Take from arba-meta and adapt
+  .apply
+
+.Github release
+.Update arba-conan-index
+.Update milestone
