@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-graph_filename="arba.gv"
+graph_fpath="/tmp/arba.gv"
+svg_fpath="arba.svg"
 
 echo "# To generate svg: dot -Tsvg graph.gv > graph.svg
 
@@ -12,13 +13,13 @@ digraph G
   node [fontname=\"monospace\"; fontsize=13];
   edge [fontname=\"helvetica\"];
   label = arba;
-" > $graph_filename
+" > $graph_fpath
 
 projects=`find -maxdepth 1 -name "arba-????"`
 feature_names=""
 for project in ${projects}
 do
-    if [[ -e "$project/conanfile.py" ]]
+    if [[ ! -e "$project/conanfile.py" ]]
     then
         continue
     fi
@@ -33,13 +34,15 @@ do
     deps=$(echo $deps|xargs)
     if [[ -n "$deps" ]]
     then
-        echo "# $feature_name:" >> $graph_filename
+        echo "# $feature_name:" >> $graph_fpath
         # echo "  deps: $deps"
         for dep in $deps
         do
-            echo "  $feature_name -> $dep" >> $graph_filename
+            echo "  $feature_name -> $dep" >> $graph_fpath
         done
     fi
 done
-echo -e "\n$(echo $feature_names|xargs)" >> $graph_filename
-echo -e "}\n" >> $graph_filename
+echo -e "\n$(echo $feature_names|xargs)" >> $graph_fpath
+echo -e "}\n" >> $graph_fpath
+
+dot -Tsvg $graph_fpath > $svg_fpath
