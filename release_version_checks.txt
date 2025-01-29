@@ -38,6 +38,7 @@ New
   .libs (deps)
 .package-config.cmake.in
   .libs (deps)
+  .alias honly/compiled
 .conanfile.py
   .class name
   .metadata
