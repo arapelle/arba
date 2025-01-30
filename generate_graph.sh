@@ -15,11 +15,11 @@ digraph G
   label = arba;
 " > $graph_fpath
 
-projects=`find -maxdepth 1 -name "arba-????"`
+projects=`find -maxdepth 1 -name "arba-????"|sort`
 feature_names=""
 for project in ${projects}
 do
-    if [[ ! -e "$project/conanfile.py" ]]
+    if [[ -e "$project/conanfile.py" ]]
     then
         continue
     fi
