@@ -58,6 +58,8 @@ New
 .include/src
   .concepts CamelCase
   .macros ARBA_TRUC_ / TRUC_
+.src
+  .same dir tree as include
 .license
   .dates
 .clang-format
