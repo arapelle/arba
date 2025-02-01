@@ -1,0 +1,26 @@
+.migration conan
+.arba:
+  .doc:
+    ...
+  .dir tree: doc/, project/.gitkeep, workspace/, .gitignore[project/, workspace/], script/[generate_deps_tree, ...]
+.temgen 0.10.0
+.arba-aloc
+.arba-itru:
+  .isptr -> siptr
+  .uiptr
+  .intrusive allocated_with_allocator
+  .silist more generic
+.arba-core:
+  .enum
+.arba-rsce:
+  .crtp rdec: multi, poly, vlfs, synchronized, verbose...
+.arba-evnt:
+  .crtp edec: multi, poly, synchronized, verbose...
+  .class signal using intrusive and allocator
+.arba-appt:
+  .crtp adec: multi_plugin_task
+  .tout changer: refaire le crtp plus propre inspiré par arba-aloc.
+.arba-dnum  # more crtp xD
+
+.arba-rsce:
+  .crtp (dec: logging)
