@@ -1,4 +1,7 @@
-.migration conan
+.migration conan:
+  .appt, cryp, math, grid, seri, inis
+  .arba-cppx 0.1.0: vtag -> numver_constant
+  .fix all package-config. -__-
 .arba:
   .doc:
     ...
