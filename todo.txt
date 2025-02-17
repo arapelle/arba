@@ -1,29 +1,33 @@
 .migration conan:
-  .appt, cryp, math, grid, seri, inis
-  .arba-cppx 0.1.0: vtag -> numver_constant
-  .fix all package-config. -__-
+  x.arba-cppx 0.1.0: vtag -> numver_constant
+  x.fix all package-config. -__-
+  .math, grid, inis, cryp. (done: appt, seri, )
 .arba:
   .doc:
     ...
   .dir tree: doc/, project/.gitkeep, workspace/, .gitignore[project/, workspace/], script/[generate_deps_tree, ...]
 .temgen 0.10.0
-.arba-aloc
+.arba-meta:
+  .crtp features
+.arba-meta:
+  .enum features
+.arba_pro-dnum  # more crtp xD
+.arba(_pro?)-aloc
 .arba-itru:
   .isptr -> siptr
   .uiptr
-  .intrusive allocated_with_allocator
+  .intrusive specifically_allocated
   .silist more generic
-.arba-core:
-  .enum
+.arba-evnt:
+  .class signal using intrusive and allocator -> arba-siga ? 
 .arba-rsce:
   .crtp rdec: multi, poly, vlfs, synchronized, verbose...
 .arba-evnt:
   .crtp edec: multi, poly, synchronized, verbose...
-  .class signal using intrusive and allocator
 .arba-appt:
   .crtp adec: multi_plugin_task
-  .tout changer: refaire le crtp plus propre inspiré par arba-aloc.
-.arba-dnum  # more crtp xD
+  .tout changer: refaire le crtp plus propre inspiré par arba-aloc et arba-meta.
 
 .arba-rsce:
   .crtp (dec: logging)
+.arba-vart (anciennement arba-inis)
