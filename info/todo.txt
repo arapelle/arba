@@ -6,11 +6,11 @@
   .doc:
     ...
   .dir tree: doc/, project/.gitkeep, workspace/, .gitignore[project/, workspace/], script/[generate_deps_tree, ...]
-.temgen 0.10.0
 .arba-meta:
   .crtp features
 .arba-meta:
   .enum features
+.temgen 0.10.0
 .arba_pro-dnum  # more crtp xD
 .arba(_pro?)-aloc
 .arba-itru:
