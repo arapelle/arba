@@ -44,13 +44,19 @@ class GenerateGraph:
         self.build_project_graph()
         project_seq = []
         self.visit_project_graph(lambda pj: project_seq.append(pj.name))
-        print(f"seq = {project_seq}")
+        # print(f"seq = {project_seq}")
         self.make_graph_gv(project_seq)
         # self.print_projects()
-        os.system("C:/msys/mingw64/bin/dot.exe -Tsvg graph.gv > graph.svg")
+        os.system("C:/msys/mingw64/bin/dot -Tsvg graph.gv > graph.svg")
 
     def make_graph_gv(self, project_seq):
-        arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].deps_str()}" for x in project_seq])
+        arba_arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].arba_deps_str()}" for x in project_seq])
+        external_arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].external_deps_str()}" for x in project_seq])
+        arba_nodes = ";".join([x for x in project_seq if x in self.projects])
+        external_nodes = set()
+        for x in project_seq:
+            external_nodes.update(self.projects[x].external_deps)
+        external_nodes_str = ";".join([f"{x} [style=radial, fillcolor=\"white:lightgrey\"]" for x in external_nodes])
         with open(f"./graph.gv", "w") as graph_file:
             content = f"""
 # To generate svg: dot -Tsvg graph.gv > graph.svg
@@ -63,10 +69,12 @@ digraph G
   node [fontname=\"monospace\"; fontsize=13];
   edge [fontname=\"helvetica\"];
   label = arba;
-  # arrows
-{arrows}
   # nodes
-  {" ".join(project_seq)}
+  {arba_nodes}
+  {external_nodes_str}
+  # arrows
+{arba_arrows}
+{external_arrows}
 }}
             """
             graph_file.write(content)
