@@ -1,17 +1,17 @@
 .migration conan:
   x.arba-cppx 0.1.0: vtag -> numver_constant
   x.fix all package-config. -__-
-  .math, grid, inis, cryp. (done: appt, seri, )
+  x.(done: appt, seri, math, grid, inis, cryp.)
 .arba:
   .doc:
     ...
   .dir tree: doc/, project/.gitkeep, workspace/, .gitignore[project/, workspace/], script/[generate_deps_tree, ...]
 .arba-meta:
   .crtp features
-.arba-meta:
   .enum features
-.temgen 0.10.0
+.cmtk 0.15.0
 .arba_pro-dnum  # more crtp xD
+.temgen 0.10.0
 .arba(_pro?)-aloc
 .arba-itru:
   .isptr -> siptr

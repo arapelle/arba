@@ -1,0 +1,5 @@
+fundamental: core cppx meta stdx
+base: aloc hash itru math rand strn
+util: cryp dirn grid inis plug wgen uuid seri
+app: appt evnt rsce vlfs
+external: spdlog TBB
