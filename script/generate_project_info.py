@@ -71,10 +71,10 @@ class GenerateGraph:
         self.__build_project_graph()
         project_seq = []
         self.__visit_project_graph(lambda pj: project_seq.append(pj.name))
-        self.__generate_project_seq(project_seq, self.__output_dir / "project_seq.txt")
+        self.__generate_project_dependency_seq(project_seq, self.__output_dir / "project_dependency_seq.txt")
         self.__generate_project_dependency_graph_svg(project_seq, self.__output_dir / "project_dependency_graph.svg")
 
-    def __generate_project_seq(self, project_seq, seq_path):
+    def __generate_project_dependency_seq(self, project_seq, seq_path):
         print(f"Generate the project sequence file: {seq_path}")
         with open(seq_path, "w") as file:
             file.write(" ".join([f"arba-{x}" for x in project_seq]))
