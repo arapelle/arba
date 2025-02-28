@@ -21,6 +21,16 @@ class ProjectInfo:
     def deps(self):
         return self.arba_deps + self.external_deps
 
+    def name_and_version(self, sep='/'):
+        return f"{self.name}{sep}{self.version}"
+
+    def identity(self, fmt):
+        match fmt:
+            case "n": return self.name
+            case "n/v": return self.name_and_version()
+            case "nv": return self.name_and_version("\n")
+            case _: raise RuntimeError(f"Bad node name format: {fmt}")
+
     def arba_deps_str(self):
         return "\n".join([f"{self.name} -> {x}" for x in self.arba_deps])
 
@@ -44,9 +54,14 @@ class GenerateGraph:
         parser = argparse.ArgumentParser(prog='generate_project_info_files')
         parser.add_argument('-o', '--graph-orientation', choices=["RL", "LR", "BT", "TB"], default="RL",
                             help="Orientation of the dependency graph in SVG.")
+        parser.add_argument('-n', '--node-format', choices=["n", "n/v", "nv"], default="n",
+                            help="Node name format (Name, Name/Version, Name\\nVersion.")
+        parser.add_argument('--node-fs', default="13", help="Node font size.")
         parser.add_argument('output_dir')
         args = parser.parse_args()
         self.__graph_orientation = args.graph_orientation
+        self.__node_format = args.node_format
+        self.__node_fs = args.node_fs
         self.__output_dir = Path(args.output_dir)
         print(f"args: {args}")
         self.projects = dict[str, ProjectInfo]()
@@ -74,29 +89,35 @@ class GenerateGraph:
         os.system(f"{dot_path} -Tsvg {gv_path} > {svg_path}")
 
     def __generate_project_dependency_graph_gv(self, project_seq, gv_path):
-        arba_arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].arba_deps_str()}" for x in project_seq])
-        external_arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].external_deps_str()}" for x in project_seq])
-        arba_nodes = ";".join([f"{x}" for x in project_seq if x in self.projects])
+        id_fmt = self.__node_format
+        arrows = []
+        arba_nodes = []
         external_nodes = set()
         for x in project_seq:
-            external_nodes.update(self.projects[x].external_deps)
-        external_nodes_str = ";".join([f"{x} [style=radial, fillcolor=\"white:lightgrey\"]" for x in external_nodes])
+            pinfo = self.projects[x]
+            arrows_to_deps = "\n".join([f'    "{pinfo.identity(id_fmt)}" -> "{self.projects[x].identity(id_fmt)}"' for x in pinfo.arba_deps])
+            arrows_to_external_deps = "\n".join([f'    "{pinfo.identity(id_fmt)}" -> "{x}"' for x in pinfo.external_deps])
+            arrows.extend([f"# {pinfo.name}:", arrows_to_deps, arrows_to_external_deps])
+            if not pinfo.external:
+                arba_nodes.append(f'"{pinfo.identity(id_fmt)}";')
+                external_nodes.update(pinfo.external_deps)
+        arrows = "\n".join(filter(None, arrows))
+        arba_nodes = "".join(arba_nodes)
+        external_nodes = "".join([f"{x} [style=radial, fillcolor=\"white:lightgrey\"];" for x in external_nodes])
         with open(gv_path, "w") as graph_file:
-            content = f"""
-digraph G
+            content = f"""digraph G
 {{
   rankdir = {self.__graph_orientation};
   graph [fontname = \"helvetica\"];
   node [style=radial, fillcolor=\"white:lightgreen\"];
-  node [fontname=\"monospace\"; fontsize=13];
+  node [fontname=\"monospace\"; fontsize={self.__node_fs}];
   edge [fontname=\"helvetica\"];
   label = "arba dependency graph";
   # nodes
   {arba_nodes}
-  {external_nodes_str}
+  {external_nodes}
   # arrows
-{arba_arrows}
-{external_arrows}
+{arrows}
 }}
             """
             graph_file.write(content)
@@ -120,7 +141,7 @@ digraph G
     def __build_project_graph(self):
         for path in self.PROJECT_PATH.glob("arba-????/"):
             project_feature_name = str(path)[-4:]
-            self.projects[project_feature_name] = ProjectInfo(project_feature_name, True)
+            self.projects[project_feature_name] = ProjectInfo(project_feature_name, False)
         for name, info in self.projects.items():
             self.__find_dependencies(self.PROJECT_PATH / f"arba-{name}", info)
         self.root_project = next(filter(lambda pj: len(pj.deps) == 0, self.projects.values())).name
