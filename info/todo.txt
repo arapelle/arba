@@ -3,9 +3,12 @@
   x.fix all package-config. -__-
   x.(done: appt, seri, math, grid, inis, cryp.)
 .arba:
-  .doc:
-    ...
-  .dir tree: doc/, project/.gitkeep, workspace/, .gitignore[project/, workspace/], script/[generate_deps_tree, ...]
+  .doc/
+  .project/.gitkeep
+  .workspace/
+  .script/
+    .generate_dependency_graph.py
+  .gitignore
 .arba-meta:
   .crtp features
   .enum features

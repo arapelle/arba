@@ -1,13 +1,18 @@
 #!/usr/bin/env python
+import argparse
 import datetime
 import os.path
 import re
+import sys
+import tempfile
 from pathlib import Path
 
 
 class ProjectInfo:
-    def __init__(self, name):
+    def __init__(self, name, external: bool):
         self.name = name
+        self.version = None
+        self.external = external
         self.arba_deps = list[str]()
         self.external_deps = list[str]()
         self.children = list[str]()
@@ -36,39 +41,56 @@ class GenerateGraph:
     PROJECT_PATH = Path(os.path.realpath(Path(__file__).parent.parent / "project"))
 
     def __init__(self):
+        parser = argparse.ArgumentParser(prog='generate_project_info_files')
+        parser.add_argument('-o', '--graph-orientation', choices=["RL", "LR", "BT", "TB"], default="RL",
+                            help="Orientation of the dependency graph in SVG.")
+        parser.add_argument('output_dir')
+        args = parser.parse_args()
+        self.__graph_orientation = args.graph_orientation
+        self.__output_dir = Path(args.output_dir)
+        print(f"args: {args}")
         self.projects = dict[str, ProjectInfo]()
         self.root_project = ""
 
     def run(self):
-        print(datetime.datetime.now())
-        self.build_project_graph()
+        self.__build_project_graph()
         project_seq = []
-        self.visit_project_graph(lambda pj: project_seq.append(pj.name))
-        # print(f"seq = {project_seq}")
-        self.make_graph_gv(project_seq)
-        # self.print_projects()
-        os.system("C:/msys/mingw64/bin/dot -Tsvg graph.gv > graph.svg")
+        self.__visit_project_graph(lambda pj: project_seq.append(pj.name))
+        self.__generate_project_seq(project_seq, self.__output_dir / "project_seq.txt")
+        self.__generate_project_dependency_graph_svg(project_seq, self.__output_dir / "project_dependency_graph.svg")
 
-    def make_graph_gv(self, project_seq):
+    def __generate_project_seq(self, project_seq, seq_path):
+        print(f"Generate the project sequence file: {seq_path}")
+        with open(seq_path, "w") as file:
+            file.write(" ".join([f"arba-{x}" for x in project_seq]))
+
+    def __generate_project_dependency_graph_svg(self, project_seq, svg_path):
+        gv_path = f"{tempfile.gettempdir()}/project_dependency_graph.gv"
+        print(f"Generate the project dependency graph gv file: {gv_path}")
+        self.__generate_project_dependency_graph_gv(project_seq, gv_path)
+        print(f"Generate the project dependency graph svg file: {svg_path}")
+        dot_path = os.getenv("DOT_PATH", "dot")
+        # To generate svg: dot -Tsvg graph.gv > graph.svg
+        os.system(f"{dot_path} -Tsvg {gv_path} > {svg_path}")
+
+    def __generate_project_dependency_graph_gv(self, project_seq, gv_path):
         arba_arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].arba_deps_str()}" for x in project_seq])
         external_arrows = "\n".join([f"# {self.projects[x].name}:\n{self.projects[x].external_deps_str()}" for x in project_seq])
-        arba_nodes = ";".join([x for x in project_seq if x in self.projects])
+        arba_nodes = ";".join([f"{x}" for x in project_seq if x in self.projects])
         external_nodes = set()
         for x in project_seq:
             external_nodes.update(self.projects[x].external_deps)
         external_nodes_str = ";".join([f"{x} [style=radial, fillcolor=\"white:lightgrey\"]" for x in external_nodes])
-        with open(f"./graph.gv", "w") as graph_file:
+        with open(gv_path, "w") as graph_file:
             content = f"""
-# To generate svg: dot -Tsvg graph.gv > graph.svg
-
 digraph G
 {{
-#  rankdir = LR;
+  rankdir = {self.__graph_orientation};
   graph [fontname = \"helvetica\"];
   node [style=radial, fillcolor=\"white:lightgreen\"];
   node [fontname=\"monospace\"; fontsize=13];
   edge [fontname=\"helvetica\"];
-  label = arba;
+  label = "arba dependency graph";
   # nodes
   {arba_nodes}
   {external_nodes_str}
@@ -79,7 +101,7 @@ digraph G
             """
             graph_file.write(content)
 
-    def visit_project_graph(self, visitor):
+    def __visit_project_graph(self, visitor):
         visited = []
         project_queue = [self.root_project]
         while len(project_queue) > 0:
@@ -95,23 +117,18 @@ digraph G
             visitor(current_project_info)
             project_queue.extend(current_project_info.children)
 
-    def build_project_graph(self):
+    def __build_project_graph(self):
         for path in self.PROJECT_PATH.glob("arba-????/"):
             project_feature_name = str(path)[-4:]
-            self.projects[project_feature_name] = ProjectInfo(project_feature_name)
+            self.projects[project_feature_name] = ProjectInfo(project_feature_name, True)
         for name, info in self.projects.items():
-            self.find_dependencies(self.PROJECT_PATH / f"arba-{name}", info)
+            self.__find_dependencies(self.PROJECT_PATH / f"arba-{name}", info)
         self.root_project = next(filter(lambda pj: len(pj.deps) == 0, self.projects.values())).name
 
-    def print_projects(self):
-        for project in self.projects.values():
-            print(project.to_str())
-        print(self.root_project)
-
-    def find_dependencies(self, path: Path, project_info: ProjectInfo):
+    def __find_dependencies(self, path: Path, project_info: ProjectInfo):
         with open(f'{path}/CMakeLists.txt', 'r') as cmake_file:
             for line in cmake_file.readlines():
-                dep_match = re.match(r"\s*find_package\(([a-zA-Z0-9-_]+) ", line)
+                dep_match = re.match(r"\s*find_package\(([a-zA-Z0-9-_]+)", line)
                 if dep_match:
                     dependency = dep_match.group(1)
                     arba_dep_match = re.match(r"arba-([a-z]{4})", dependency)
@@ -121,12 +138,18 @@ digraph G
                         self.projects.get(arba_dep).children.append(project_info.name)
                     else:
                         project_info.external_deps.append(dependency)
+                    continue
+                version_match = re.match(r"\s*set_project_semantic_version\(\"([0-9\.]+)\"", line)
+                if version_match:
+                    project_info.version = version_match.group(1)
+                    continue
 
-
-def main():
-    generator = GenerateGraph()
-    generator.run()
+    def print_projects(self):
+        for project in self.projects.values():
+            print(project.to_str())
+        print(self.root_project)
 
 
 if __name__ == '__main__':
-    main()
+    generator = GenerateGraph()
+    generator.run()
