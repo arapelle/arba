@@ -2,13 +2,10 @@
   x.arba-cppx 0.1.0: vtag -> numver_constant
   x.fix all package-config. -__-
   x.(done: appt, seri, math, grid, inis, cryp.)
+  .Make a release of arba-conan-index.
 .arba:
-  .doc/
-  .project/.gitkeep
-  .workspace/
   .script/
     .generate_dependency_graph.py
-  .gitignore
 .arba-meta:
   .crtp features
   .enum features
