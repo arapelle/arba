@@ -6,13 +6,21 @@
 .arba:
   .script/
     .generate_dependency_graph.py
+  .gitignore
+.cmtk/0.15.0
+.arba-cppx using cmtk/0.15.0
 .arba-meta:
-  .crtp features
   .enum features
-.cmtk 0.15.0
-.arba_pro-dnum  # more crtp xD
+  .crtp features
+.arba-aloc/0.1.0
+.arba-exec/0.1.0
+.arba:
+  .script/
+    .update_external_dependencies.py
+    .update_conan_dependencies.py
+.arba-appt/0.16.0
+.arba-dnum  # more crtp xD
 .temgen 0.10.0
-.arba(_pro?)-aloc
 .arba-itru:
   .isptr -> siptr
   .uiptr
