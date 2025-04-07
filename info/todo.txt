@@ -1,14 +1,14 @@
-.migration conan:
+x.migration conan:
   x.arba-cppx 0.1.0: vtag -> numver_constant
   x.fix all package-config. -__-
   x.(done: appt, seri, math, grid, inis, cryp.)
-  .Make a release of arba-conan-index.
-.arba:
-  .script/
-    .generate_dependency_graph.py
-  .gitignore
-.cmtk/0.15.0
-.arba-cppx using cmtk/0.15.0
+  x.Make a release of arba-conan-index.
+x.arba WIP:
+  x.script/
+    x.generate_dependency_graph.py
+  x.gitignore
+x.cmtk/0.15.0
+.arba-cppx/0.2.0 using cmtk/0.15.0
 .arba-meta:
   .enum features
   .crtp features
@@ -18,6 +18,7 @@
   .script/
     .update_external_dependencies.py
     .update_conan_dependencies.py
+  .Make a release
 .arba-appt/0.16.0
 .arba-dnum  # more crtp xD
 .temgen 0.10.0
