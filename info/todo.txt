@@ -11,6 +11,12 @@ x.cmtk/0.15.0
 .arba-cppx/0.2.0 using cmtk/0.15.0
 .arba-meta:
   .enum features
+  .arithmetic & comparison helpers
+.resursive update of dependencies.
+.arba-appt:
+  .execution_status is a meta::enumerator.
+  .make spdlog dependency optional.
+.arba-meta:
   .crtp features
 .arba-aloc/0.1.0
 .arba-exec/0.1.0
