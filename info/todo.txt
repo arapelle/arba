@@ -8,26 +8,26 @@ x.arba WIP:
     x.generate_dependency_graph.py
   x.gitignore
 x.cmtk/0.15.0
-.arba-cppx/0.2.0 using cmtk/0.15.0
-.arba-meta:
-  .enum features
+x.arba-cppx/0.2.0 using cmtk/0.15.0
+.arba-meta/0.4.0:
+  x.enum features
   .arithmetic & comparison helpers
-.resursive update of dependencies.
-.arba-appt:
+.recursive update of dependencies.
+.arba-appt/0.16.0:
   .execution_status is a meta::enumerator.
   .make spdlog dependency optional.
-.arba-meta:
+.arba-meta/0.5.0:
   .crtp features
 .arba-aloc/0.1.0
-.arba-exec/0.1.0
+.arba-exec/0.1.0: metronome, periodic_task, build_and_consume, request_and_build/provide/answer
 .arba:
   .script/
     .update_external_dependencies.py
     .update_conan_dependencies.py
   .Make a release
-.arba-appt/0.16.0
 .arba-dnum  # more crtp xD
-.temgen 0.10.0
+.arba-appt/0.17.0
+.temgen/0.10.0
 .arba-itru:
   .isptr -> siptr
   .uiptr
@@ -39,10 +39,19 @@ x.cmtk/0.15.0
   .crtp rdec: multi, poly, vlfs, synchronized, verbose...
 .arba-evnt:
   .crtp edec: multi, poly, synchronized, verbose...
-.arba-appt:
-  .crtp adec: multi_plugin_task
+.arba-appt/0.18.0:
   .tout changer: refaire le crtp plus propre inspiré par arba-aloc et arba-meta.
+  .split into several targets
 
 .arba-rsce:
   .crtp (dec: logging)
-.arba-vart (anciennement arba-inis)
+.arba-vart (VARiableTree anciennement arba-inis)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+.Apprendre les coroutines:
+https://zestedesavoir.com/articles/152/la-puissance-cachee-des-coroutines/#3-un-parseur-tres-leger-et-plutot-performant
+https://github.com/lewissbaker/cppcoro
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+arba-logs ? ok, mais pourquoi pas boost-logging ? et pourquoi pas spdlog ? 
+arba-args ? ok, mais pourquoi pas argparse (cf. github) ? 
