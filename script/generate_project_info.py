@@ -72,12 +72,18 @@ class GenerateGraph:
         project_seq = []
         self.__visit_project_graph(lambda pj: project_seq.append(pj.name))
         self.__generate_project_dependency_seq(project_seq, self.__output_dir / "project_dependency_seq.txt")
+        self.__generate_project_with_version_list(project_seq, self.__output_dir / "project_version_list.txt")
         self.__generate_project_dependency_graph_svg(project_seq, self.__output_dir / "project_dependency_graph.svg")
 
     def __generate_project_dependency_seq(self, project_seq, seq_path):
         print(f"Generate the project sequence file: {seq_path}")
         with open(seq_path, "w") as file:
             file.write(" ".join([f"arba-{x}" for x in project_seq]))
+
+    def __generate_project_with_version_list(self, project_seq, seq_path):
+        print(f"Generate the project with version list: {seq_path}")
+        with open(seq_path, "w") as file:
+            file.write("\n".join([f"arba-{x}  {self.projects[x].version}" for x in project_seq]))
 
     def __generate_project_dependency_graph_svg(self, project_seq, svg_path):
         gv_path = f"{tempfile.gettempdir()}/project_dependency_graph.gv"
