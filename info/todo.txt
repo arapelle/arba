@@ -8,16 +8,20 @@ x.arba WIP:
     x.generate_dependency_graph.py
   x.gitignore
 x.cmtk/0.15.0
-x.arba-cppx/0.2.0 using cmtk/0.15.0
+.arba-cppx/0.2.0 using cmtk/0.15.0
+.arba-cppx/0.3.0:
+  .fix: no exceptions macros
 .arba-meta/0.4.0:
-  x.enum features
-  .arithmetic & comparison helpers
-.recursive update of dependencies.
+  .enum features
+  .use arba-cppx/0.3.0
+.arba-meta/0.5.0:
+  .crtp features
+.resursive update of dependencies.
 .arba-appt/0.16.0:
   .execution_status is a meta::enumerator.
   .make spdlog dependency optional.
-.arba-meta/0.5.0:
-  .crtp features
+.arba-meta/0.6.0:
+  .arithmetic & comparison helpers
 .arba-aloc/0.1.0
 .arba-exec/0.1.0: metronome, periodic_task, build_and_consume, request_and_build/provide/answer
 .arba:
