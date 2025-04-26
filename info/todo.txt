@@ -8,14 +8,14 @@ x.arba WIP:
     x.generate_dependency_graph.py
   x.gitignore
 x.cmtk/0.15.0
-.arba-cppx/0.2.0 using cmtk/0.15.0
-.arba-cppx/0.3.0:
-  .fix: no exceptions macros
-.arba-meta/0.4.0:
-  .enum features
-  .use arba-cppx/0.3.0
-.arba-meta/0.5.0:
-  .crtp features
+x.arba-cppx/0.2.0 using cmtk/0.15.0
+x.arba-cppx/0.3.0:
+  x.fix: no exceptions macros
+x.arba-meta/0.4.0:
+  x.enum features
+  x.use arba-cppx/0.3.0
+x.arba-meta/0.5.0:
+  x.crtp features
 .resursive update of dependencies.
 .arba-appt/0.16.0:
   .execution_status is a meta::enumerator.
