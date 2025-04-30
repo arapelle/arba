@@ -17,16 +17,15 @@ x.arba-meta/0.4.0:
 x.arba-meta/0.5.0:
   x.crtp features
 .resursive update of dependencies.
-  .stdx -> 0.3.0
+  x.stdx -> 0.3.0
   .strn -> 0.6.0
   .vlfs -> 0.6.0
   .rsce -> 0.5.0
   .evnt -> 0.7.0
+  ...
 .arba-appt/0.16.0:
   .execution_status is a meta::enumerator.
   .make spdlog dependency optional.
-.resursive update of dependencies (2).
-  ...
 .arba-meta/0.6.0:
   .arithmetic & comparison helpers
 .arba-aloc/0.1.0
