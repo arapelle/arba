@@ -16,16 +16,37 @@ x.arba-meta/0.4.0:
   x.use arba-cppx/0.3.0
 x.arba-meta/0.5.0:
   x.crtp features
-.resursive update of dependencies.
-  x.stdx -> 0.3.0
-  .strn -> 0.6.0
-  .vlfs -> 0.6.0
-  .rsce -> 0.5.0
-  .evnt -> 0.7.0
-  ...
-.arba-appt/0.16.0:
-  .execution_status is a meta::enumerator.
-  .make spdlog dependency optional.
+x.resursive update of dependencies.
+{
+  x.dirn
+  x.rand
+  x.hash
+  x.inis
+  x.meta
+  x.plug
+  x.strn
+  -
+  x.core
+  x.uuid
+  x.math
+  x.itru
+  x.vlfs
+  x.wgen
+  -
+  x.seri
+  x.cryp
+  x.grid
+  x.stdx
+  x.rsce
+  x.evnt
+  -
+  x.appt
+}
+x.arba-appt/0.17.0:
+  x.execution_status is a meta::enumerator.
+  x.make spdlog dependency optional.
+.arba-appt/0.18.0:
+  .split into several targets, and make some arba dependencies optional.
 .arba-meta/0.6.0:
   .arithmetic & comparison helpers
 .arba-aloc/0.1.0
@@ -36,7 +57,7 @@ x.arba-meta/0.5.0:
     .update_conan_dependencies.py
   .Make a release
 .arba-dnum  # more crtp xD
-.arba-appt/0.17.0
+.arba-appt/0.19.0
 .temgen/0.10.0
 .arba-itru:
   .isptr -> siptr
@@ -49,9 +70,8 @@ x.arba-meta/0.5.0:
   .crtp rdec: multi, poly, vlfs, synchronized, verbose...
 .arba-evnt:
   .crtp edec: multi, poly, synchronized, verbose...
-.arba-appt/0.18.0:
+.arba-appt/0.20.0:
   .tout changer: refaire le crtp plus propre inspiré par arba-aloc et arba-meta.
-  .split into several targets
 
 .arba-rsce:
   .crtp (dec: logging)
