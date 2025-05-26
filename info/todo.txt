@@ -47,6 +47,11 @@ x.arba-appt/0.17.0:
   x.make spdlog dependency optional.
 .arba-appt/0.18.0:
   .split into several targets, and make some arba dependencies optional.
+.arba-itru/0.5.0
+  .isptr -> siptr (..., make_shared_instrusive_ptr<T>())
+  .islist -> silist
+.arba-dpat/0.1.0
+.Use new target name convention: arba-FEAT::COMPONENT_NAME, arba-FEAT::arba-FEAT(all components)
 .arba-meta/0.6.0:
   .arithmetic & comparison helpers
 .arba-aloc/0.1.0
@@ -60,10 +65,9 @@ x.arba-appt/0.17.0:
 .arba-appt/0.19.0
 .temgen/0.10.0
 .arba-itru:
-  .isptr -> siptr
   .uiptr
   .intrusive specifically_allocated
-  .silist more generic
+  ((.silist more generic <- whut?!?))
 .arba-evnt:
   .class signal using intrusive and allocator -> arba-siga ? 
 .arba-rsce:
