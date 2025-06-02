@@ -47,6 +47,7 @@ x.arba-appt/0.17.0:
   x.make spdlog dependency optional.
 .arba-appt/0.18.0:
   .split into several targets, and make some arba dependencies optional.
+.arba-core/0.31.0
 .arba-itru/0.5.0
   .isptr -> siptr (..., make_shared_instrusive_ptr<T>())
   .islist -> silist
