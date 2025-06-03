@@ -51,12 +51,13 @@ x.arba-appt/0.17.0:
   .Extract spdlog features from arba-appt.
 .arba-core/0.31.0
 .arba-stdx/0.4.0:
+  .Remove span helper functions present in arba-core/0.31.0 now.
   .Extract delta_time (seconds, hours) and make it generic.
-.arba-itru/0.5.0
-  .isptr -> siptr (..., make_shared_instrusive_ptr<T>())
-  .islist -> silist
+x.arba-itru/0.5.0
+  x.isptr -> siptr (..., make_shared_instrusive_ptr<T>())
+  x.islist -> silist
 .arba-dpat/0.1.0
-.Use new target name convention: arba-FEAT::COMPONENT_NAME, arba-FEAT::arba-FEAT(all components)
+.For all projects: use new target name convention: arba-FEAT::COMPONENT_NAME, arba-FEAT::arba-FEAT(all components)
 .arba-meta/0.6.0:
   .arithmetic & comparison helpers
 .arba-aloc/0.1.0
